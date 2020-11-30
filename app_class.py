@@ -1,4 +1,6 @@
-import pygame, sys
+import pygame
+import sys
+import copy
 from settings import *
 from player_class import *
 from enemy_class import *
@@ -20,7 +22,7 @@ class App:
         self.e_pos = []
         self.p_pos = None
         self.load()
-        self.player = Player(self, self.p_pos)
+        self.player = Player(self, copy.copy(self.p_pos))
         self.make_enemies()
     
     def run(self):
@@ -62,7 +64,7 @@ class App:
                     elif char == "C":
                         self.coins.append(vec(xindx, yindx))
                     elif char == "P":
-                        self.p_pos = vec(xindx, yindx)
+                        self.p_pos = [xindx, yindx]
                     elif char in ["2", "3", "4", "5"]:
                         self.e_pos.append(vec(xindx, yindx))
                     elif char == "B":
@@ -122,6 +124,9 @@ class App:
         self.player.update()
         for enemy in self.enemies:
             enemy.update()
+        for enemy in self.enemies:
+            if enemy.grid_pos == self.player.grid_pos:
+                self.remove_life()
 
     def playing__draw(self):
         self.screen.fill(BLACK)
@@ -134,6 +139,15 @@ class App:
         for enemy in self.enemies:
             enemy.draw()
         pygame.display.update()
+
+    def remove_life(self):
+        self.player.lives -= 1
+        if self.player.lives == 0:
+            self.state == "game over"
+        else:
+            self.player.grid_pos = vec(self.p_pos)
+            self.player.pix_pos = self.player.get_pix_pos()
+            self.player.direction *= 0
     
     def draw_coins(self):
         for coin in self.coins:

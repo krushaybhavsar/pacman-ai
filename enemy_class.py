@@ -43,11 +43,11 @@ class Enemy:
         if self.personality == "speedy" or self.personality == "slow":
             return self.app.player.grid_pos
         else:
-            if self.app.player.grid_pos.x > COLS // 2 and self.app.player.grid_pos.y > ROWS // 2:
+            if self.app.player.grid_pos[0] > COLS // 2 and self.app.player.grid_pos[1] > ROWS // 2:
                 return vec(1, 1)
-            if self.app.player.grid_pos.x > COLS // 2 and self.app.player.grid_pos.y < ROWS // 2:
+            if self.app.player.grid_pos[0] > COLS // 2 and self.app.player.grid_pos[1] < ROWS // 2:
                 return vec(1, ROWS-2)
-            if self.app.player.grid_pos.x < COLS // 2 and self.app.player.grid_pos.y > ROWS // 2:
+            if self.app.player.grid_pos[0] < COLS // 2 and self.app.player.grid_pos[1] > ROWS // 2:
                 return vec(COLS-2, 1)
             else:
                 return vec(COLS-2, ROWS-2)
@@ -78,7 +78,7 @@ class Enemy:
         return vec(xdir, ydir)
 
     def find_next_cell_in_path(self, target):
-        path = self.BFS([int(self.grid_pos.x), int(self.grid_pos.y)], [int(target.x), int(target.y)])
+        path = self.BFS([int(self.grid_pos.x), int(self.grid_pos.y)], [int(target[0]), int(target[1])])
         return path[1]
     
     def BFS(self, start, target):
