@@ -1,2 +1,2 @@
-# pacman-ai
-Currently working on a Pacman AI powered by the NEAT genetic algorithm.
+# pacman-python
+The classic Pacman game in Python.
